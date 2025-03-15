@@ -1,4 +1,7 @@
 program ejer4;
+const
+  nomArchT1='todos_empleados';
+  nomArchT2 = 'faltaDNIEmpleado';
 type
     empleado = record
     numEmp: Integer;
@@ -14,6 +17,11 @@ begin
   Assign(arch,nombre);
   Rewrite(arch);
 end;
+procedure InicializarArchivoTexto(var archT: text; nombre: String);
+begin
+  Assign(archT,nombre);
+  Rewrite(archT);
+end;
 procedure impirmirEmpleado(e:empleado);
 begin
   WriteLn('Numero de empleado: ', e.numEmp, ' nombre completo: ',
@@ -26,7 +34,7 @@ begin
   ReadLn(e.apellido);
   if(e.apellido <> 'fin') then
     begin
-        WriteLn('ingrese el numerod e empleado');
+        WriteLn('ingrese el numero de empleado');
         ReadLn(e.numEmp);
         WriteLn('ingrese el nombre');
         ReadLn(e.nombre);
@@ -46,7 +54,7 @@ var
     nombre: string;
     notEnd: Boolean;
 begin
-  WriteLn('inrgese el nombre del archivo');
+  WriteLn('ingrese el nombre del archivo');
   ReadLn(nombre);
   InicializarArchivo(arch, nombre); 
   cargarEmpleado(e,notEnd);
@@ -129,7 +137,6 @@ begin
 end;
 procedure AddEmpleado(var arch: archivo);
 var
-  opcion: integer;
   e:empleado;
   notEnd,coincidente:Boolean;
   
@@ -156,12 +163,55 @@ var
 begin
   WriteLn('Ingrese el numero de empleado que quiera cambiar');
   ReadLn(numEmp);
+
   Reset(arch);
   read(arch,empAbuscar);
-  while not eof(arch)  and empAbuscar.numEmp <> numEmp do
+  while (not eof(arch) ) and (empAbuscar.numEmp <> numEmp) do
   begin
       Read(arch,empAbuscar);
   end;
+  if(empAbuscar.numEmp = numEmp)then
+  begin
+      WriteLn('ingrese la edad que quiera modificar');
+      ReadLn(edadAcambiar);
+      empAbuscar.edad:= edadAcambiar;
+      seek(arch, filepos(arch)-1);
+      write (arch, empAbuscar);
+  end;
+  Close(arch);
+end;
+procedure ExportarAtxt(var arch:archivo);
+var
+  archT: text;
+  e:empleado;
+begin
+  InicializarArchivoTexto(archT, nomArchT1);
+  reset(arch);
+  while not Eof(arch) do
+    begin
+      Read(arch,e);
+      with e do WriteLn(archT,' ', numEmp, ' ', apellido, ' ', nombre, ' ',edad,' ', dni);
+    end;  
+  Close(archT);
+  Close(arch);
+ 
+end;
+procedure ExportarAtxtDNI(var arch:archivo);
+var
+  archT: text;
+  e:empleado;
+begin
+  InicializarArchivoTexto(archT, nomArchT2);
+  reset(arch);
+  while(not Eof(arch)) do
+    begin
+      Read(arch,e);
+      if(e.dni = 00)then
+          with e do WriteLn(archT,' ', numEmp, ' ', apellido, ' ', nombre, ' ',edad,' ', dni);
+        
+    end;
+  close(archT);
+  close(arch);
 end;
 var
     arch:archivo;
@@ -176,6 +226,8 @@ begin
     WriteLn('4- Empleados pronto a jubilar');
     WriteLn('5- Agregar 1 o mas empeleados');
     WriteLn('6- Modificar la edad de un empelado');
+    WriteLn('7- Exportar a texto');
+    WriteLn('8- Exportar a texto sin dni');
     WriteLn('0- Salir');
     ReadLn(opcion);
     
@@ -198,12 +250,12 @@ begin
         6: begin
             ModificarEdadEmpleado(arch);
         end;
-        //7: begin
-        //    ExportarAtxt(arch);
-        //end;
-        //8: begin
-        //    ExportarAtxtDNI(arch);
-        //end;
+        7: begin
+            ExportarAtxt(arch);
+        end;
+        8: begin
+            ExportarAtxtDNI(arch);
+        end;
     end;
 
 until (opcion = 0);

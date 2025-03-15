@@ -1,3 +1,4 @@
+// este archivo tiene codigo el cual se utiliza para enteder los algoritmos
 program test;
 type
     archivo = file of integer;
@@ -18,13 +19,13 @@ end;
 
 var
     arch:archivo;
-    i,count:integer;
+    i:integer;
 begin
     Assign(arch, 'test');
     Rewrite(arch);
     write (arch, 1);
-    write (arch, 1);
     write (arch, 2);
+    write (arch, 1);
     close(arch);
 
     Reset(arch);
@@ -32,11 +33,9 @@ begin
     while (not eof(arch) ) and (i <> 2) do
     begin
       Read(arch,i);
-      count:=filePos(arch);
     end;
-    WriteLn(count);
-    seek(arch, count);
-    write(arch,12);
+    seek(arch, filepos(arch) -1);
+    write (arch, 10);
     close(arch);    
     MostrarArchivo(arch);
 end.
