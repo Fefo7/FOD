@@ -1,0 +1,14 @@
+1 499.99 Ficcion
+El Aleph
+
+2 599.99 Ficcion
+Rayuela
+
+3 699.99 Realismo magico
+Cien anos de soledad
+
+4 399.99 Suspenso
+El tunel
+
+5 299.99 Clasico
+Don Segundo Sombra

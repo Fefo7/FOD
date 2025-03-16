@@ -1,41 +1,47 @@
 // este archivo tiene codigo el cual se utiliza para enteder los algoritmos
 program test;
 type
-    archivo = file of integer;
+  
+    persona = record
+        dni: Integer;
+        edad: integer;
+        nombre: String;
+        apellido: string;
+    end;
+      archivo = file of persona;
+
+
+
 
 
 procedure MostrarArchivo(var arch:archivo);
 var 
-    num: Integer;
+    p: persona;
 begin
   reset(arch);
   while not Eof(arch) do
   begin
-      Read(arch, num);
-      WriteLn(num);
+      Read(arch, p);
+     with p do WriteLn (nombre, apellido, dni, edad);
   end;
   Close(arch);
 end;
-
 var
     arch:archivo;
-    i:integer;
+    archT: text;
+    p1: persona;
 begin
     Assign(arch, 'test');
+    Assign(archT, 'testText');
     Rewrite(arch);
-    write (arch, 1);
-    write (arch, 2);
-    write (arch, 1);
-    close(arch);
-
-    Reset(arch);
-    Read(arch,i);
-    while (not eof(arch) ) and (i <> 2) do
+    Reset(archT);
+    while (not eof(archT)) do
     begin
-      Read(arch,i);
+        with p1 do ReadLn (archT,edad,dni,nombre,apellido); 
+        write (arch, p1);
     end;
-    seek(arch, filepos(arch) -1);
-    write (arch, 10);
-    close(arch);    
+    Close(archT);
+    Close(arch);
     MostrarArchivo(arch);
+
 end.

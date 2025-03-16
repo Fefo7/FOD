@@ -1,0 +1,19 @@
+101 39999.99 Samsung
+25 10 Smartphone Android con excelente camara
+Galaxy S21
+
+102 49999.50 Apple
+12 5 Nuevo modelo con chip A15 Bionic y calidad
+iPhone 13
+
+103 19999.75 Xiaomi
+0 15 Rendimiento potente y precio accesible
+Redmi Note 10
+
+104 34999.20 Motorola
+5 8 Gran capacidad de procesamiento y autonomia
+Moto G100
+
+105 29999.95 Huawei
+18 10 Diseno elegante y camara de alta calidad
+Huawei P40
