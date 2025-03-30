@@ -94,7 +94,7 @@ end;
         end;
      end;
      if(minimo.cod <> valorAlto)then
-        LeerDetalle(regisDet[i]);
+        LeerDetalle(todasVentas[pos],regisDet[pos]);
  end;
 
 procedure CrearReporteStock(var reporte:text);
@@ -144,7 +144,7 @@ begin
             BuscarMinimo(regisDet, minimo);
         end;
         seek(maestro, FilePos(maestro)-1);
-        Write(maestro,regisDet);
+        Write(maestro,regMae);
   end;
   CerrarLosDetalles();
   Close(maestro);

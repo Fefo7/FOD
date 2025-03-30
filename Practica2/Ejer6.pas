@@ -3,9 +3,7 @@ const
     valorCorte = -1; //suponemos que no hay usuario -1
     dimf = 5;
     ruta = '/var/log/';
-var
-    maestro: archMaestro;
-    detalles: vecLog;
+
 type
     Date = record
         anio: Integer;
@@ -26,6 +24,9 @@ type
     archlog = file of log;
     vecLog =  array[1..dimf] of archlog;
     vecRegLog = array[1..dimf] of log;
+var
+    mae: archMaestro;
+    detalles: vecLog;
 procedure CrearMaestro ();
 var
     nombre: string;
@@ -33,8 +34,8 @@ begin
     WriteLn('ingrese el nombre que quiera crear el archivo');
     ReadLn(nombre);
     nombre:= ruta+nombre; 
-    Assign(maestro, nombre);
-    Rewrite(maestro);
+    Assign(mae, nombre);
+    Rewrite(mae);
 end;
 
 procedure CrearLog(var d:archlog);
@@ -83,7 +84,7 @@ begin
         LeerLog(detalles[i],regisDet[i]);
       end;
 end;
-function EsFechaMenor(f: TDate; f2: TDate): Boolean;
+function EsFechaMenor(f: Date; f2: Date): Boolean;
 begin
     if f.anio < f2.anio then
         EsFechaMenor := True
@@ -125,7 +126,10 @@ begin
       pos:= i;
   end;
   if minimo.codUs <> valorCorte then
-    LeerLog(regisDet[i]);
+  begin
+    LeerLog(detalles[pos],regisDet[pos]);
+  end;
+    
 end;
 
 function FechaDiferente(f1,f2:Date): Boolean;
@@ -155,9 +159,9 @@ begin
             regM.tiempoTotalSesion:=regM.tiempoTotalSesion + minimo.tiempoSesion;
             BuscarMinimos(regisDet,minimo);
         end;
-        write(maestro, regM);
+        write(mae, regM);
    end; 
  end;
- Close(maestro);
+ Close(mae);
  CerrarLogs();
 end.
