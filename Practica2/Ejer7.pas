@@ -1,6 +1,6 @@
 Program Ejer7;
 const
-    valorcorte= -1;
+    valorcorte= 999;
     dimf= 10;
 type
     str = String[50];
@@ -80,13 +80,7 @@ begin
   while (minimo.codLocalidad <> valorcorte) do
   begin
     Read(mae,maeReg);
-    while maeReg.codLocalidad <> minimo.codLocalidad do
-    begin
-      if maeReg.cantActivo > 50 then
-        cantMasActivos:= cantMasActivos+1; // lo hago aca por que si entra aca no se va a volver a procesar la misma localidad
-      Read(mae,maeReg);
-    end;
-    while (maeReg.codigoCepa = minimo.codigoCepa) do
+    while (maeReg.codLocalidad = minimo.codLocalidad and maeReg.codigoCepa = minimo.codigoCepa) do
     begin
        maeReg.cantMuerto:= maeReg.cantMuerto+ minimo.cantMuerto;
        maeReg.cantRecu:=maeReg.cantRecu + minimo.cantRecu;
