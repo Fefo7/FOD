@@ -11,7 +11,7 @@ program Ejer7_25;
 //        cod: integer;
 //        codMat: integer;
 //        anio: string[4];
-//        resultado: Boolean;
+//        resultado: char;
 //    end;
 //    detalle2 = record
 //        cod: integer;

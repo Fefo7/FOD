@@ -1,49 +1,59 @@
 program GeneradorArch;
 
 type
-    maestro = record
-        cod: Integer;
-        codMat: Integer;
-        resultado: Boolean;
-        anio: String;
-    end;
-    arch = file of maestro;
-
-procedure MostrarArchivo(var a: arch);
+  Registro = record
+    cod: Integer;
+    codMat: Integer;
+    resultado: String[2];
+    anio: string[4];
+  end;
+    archivo = file of Registro;
+procedure MostrarArchivo(var a: archivo);
 var
-    r: maestro;
+    r: Registro;
 begin
     reset(a);
     while (not Eof(a)) do
     begin
         read(a, r);
-        with r do
-            writeln(cod, ' ', codMat, ' ', anio, ' ', resultado);
+        with r do writeln(cod, ' ', codMat,' ',resultado, ' ',anio );  
     end;
     close(a);
 end;
-
 var
-    archTex: text;
-    archivo2: arch;
-    reg: maestro;
-begin
-    assign(archTex, 'Datos.txt');
-    reset(archTex);
-    assign(archivo2, 'Test1.dat');
-    rewrite(archivo2);
-    while (not Eof(archTex)) do
-    begin
-       with reg do
-        begin
-            ReadLn(archTex, cod, codMat, resultado);
-            ReadLn(archTex, anio);
-            write (archivo2, reg); 
-        end;
-       
-    end;
+  ArchivoTexto: Text;
+  ArchivoBinario: archivo;
+  Datos: Registro;
+  NombreArchivoTexto, NombreArchivoBinario: string;
 
-    close(archivo2);
-    close(archTex);
-    MostrarArchivo(archivo2);
+begin
+
+
+  { Abrir el archivo de texto para lectura }
+  assign(ArchivoTexto, 'Datos.txt');
+  reset(ArchivoTexto);
+
+  { Crear el archivo binario }
+  assign(ArchivoBinario, 'test.dat');
+  rewrite(ArchivoBinario);
+
+  { Leer datos del archivo de texto y escribirlos en el archivo binario }
+  while not eof(ArchivoTexto) do
+  begin
+    { Leer datos desde el archivo de texto }
+    readln(ArchivoTexto, Datos.cod, Datos.codMat, Datos.resultado);
+    readln(ArchivoTexto,  Datos.anio);
+
+
+    { Escribir el registro en el archivo binario }
+    write(ArchivoBinario, Datos);
+  end;
+
+  { Cerrar los archivos }
+  close(ArchivoTexto);
+  close(ArchivoBinario);
+
+  writeln('Archivo binario creado exitosamente.');
+  MostrarArchivo(ArchivoBinario);
 end.
+
