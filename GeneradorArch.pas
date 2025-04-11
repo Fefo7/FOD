@@ -1,11 +1,12 @@
 program GeneradorArch;
 
 type
+  str= string[30];
   Registro = record
-    cod: Integer;
-    codMat: Integer;
-    resultado: String[2];
-    anio: string[4];
+      cod: integer;
+        codMateria: Integer;
+        anio: Integer;
+        resultado: Boolean;
   end;
     archivo = file of Registro;
 procedure MostrarArchivo(var a: archivo);
@@ -16,7 +17,7 @@ begin
     while (not Eof(a)) do
     begin
         read(a, r);
-        with r do writeln(cod, ' ', codMat,' ',resultado, ' ',anio );  
+        with r do writeln(cod, ' ', codMateria,' ',anio, ' ', resultado); 
     end;
     close(a);
 end;
@@ -24,6 +25,7 @@ var
   ArchivoTexto: Text;
   ArchivoBinario: archivo;
   Datos: Registro;
+  datoBooleano: Integer;
   NombreArchivoTexto, NombreArchivoBinario: string;
 
 begin
@@ -34,26 +36,24 @@ begin
   reset(ArchivoTexto);
 
   { Crear el archivo binario }
-  assign(ArchivoBinario, 'test.dat');
+  assign(ArchivoBinario, 'Test.dat');
   rewrite(ArchivoBinario);
-
+  
+  //cod, materia, anio, resultado
   { Leer datos del archivo de texto y escribirlos en el archivo binario }
   while not eof(ArchivoTexto) do
   begin
     { Leer datos desde el archivo de texto }
-    readln(ArchivoTexto, Datos.cod, Datos.codMat, Datos.resultado);
-    readln(ArchivoTexto,  Datos.anio);
-
-
-    { Escribir el registro en el archivo binario }
+    readln(ArchivoTexto, Datos.cod, Datos.codMateria, Datos.anio, datoBooleano);
+    Datos.resultado:= (datoBooleano = 1);
     write(ArchivoBinario, Datos);
   end;
 
-  { Cerrar los archivos }
   close(ArchivoTexto);
   close(ArchivoBinario);
 
   writeln('Archivo binario creado exitosamente.');
   MostrarArchivo(ArchivoBinario);
+  
 end.
 
