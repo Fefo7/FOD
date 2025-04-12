@@ -3,10 +3,10 @@ program GeneradorArch;
 type
   str= string[30];
   Registro = record
-      cod: integer;
-        codMateria: Integer;
-        anio: Integer;
-        resultado: Boolean;
+      cod: Integer;
+      codMateria: Integer;
+      fecha: str;
+      nota: Integer;
   end;
     archivo = file of Registro;
 procedure MostrarArchivo(var a: archivo);
@@ -17,7 +17,7 @@ begin
     while (not Eof(a)) do
     begin
         read(a, r);
-        with r do writeln(cod, ' ', codMateria,' ',anio, ' ', resultado); 
+        with r do writeln(cod, ' ', codMateria,' ',fecha, ' ', nota); 
     end;
     close(a);
 end;
@@ -25,8 +25,6 @@ var
   ArchivoTexto: Text;
   ArchivoBinario: archivo;
   Datos: Registro;
-  datoBooleano: Integer;
-  NombreArchivoTexto, NombreArchivoBinario: string;
 
 begin
 
@@ -44,8 +42,7 @@ begin
   while not eof(ArchivoTexto) do
   begin
     { Leer datos desde el archivo de texto }
-    readln(ArchivoTexto, Datos.cod, Datos.codMateria, Datos.anio, datoBooleano);
-    Datos.resultado:= (datoBooleano = 1);
+    readln(ArchivoTexto, Datos.cod, Datos.codMateria,Datos.nota,Datos.fecha);
     write(ArchivoBinario, Datos);
   end;
 
