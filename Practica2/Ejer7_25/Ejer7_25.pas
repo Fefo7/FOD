@@ -32,32 +32,92 @@ var
     cursadas  = archCursada;
     examenes = archExamen;
 
-
-procedure LeerCursada(var c:archCursada; regC: cursada);
+procedure LeerMaestro(var regM: alumno);
 begin
-  if (not eof(c) )then
-    Read(c,regC)
+  if (not eof(maestro) )then
+    Read(maestro,regM)
+  else
+    regM.cod := valorAlto;
+end;
+procedure LeerCursada(var regC: cursada);
+begin
+  if (not eof(cursadas) )then
+    Read(cursadas,regC)
   else
     regC.cod := valorAlto;
 end;
-procedure LeerExamenes(var e:archExamen; regE: cursada);
+procedure LeerExamenes(var regE: examen);
 begin
-  if (not eof(e) )then
-    Read(e,regE)
+  if (not eof(examenes) )then
+    Read(examenes,regE)
   else
     regE.cod := valorAlto;
 end;
-procedure AsignarArchivos(var m: archMaestro; var c:archCursada; var e:archExamen);
+procedure AsignarArchivos();
 begin
-  Assign(a,'maestro.dat');
-  Assign(c,'materiasCursadas.dat');
-  Assign(e,'examenes.dat');
+  Assign(maestro,'maestro.dat');
+  Assign(cursadas,'materiasCursadas.dat');
+  Assign(examenes,'examenes.dat');
 end;
-procedure BuscarMnimoDetalles(var c:archCursada; var e:archExamen;);
+procedure BuscarMinimoDetalles(var minE:examen; var minC:cursada);
+var
+   exa: examen;
+   cur: cursada;
 begin
-    
+    Reset(cursadas);
+    Reset(examenes);
+    if (exa.cod<= cur.cod ) then
+    begin
+        if exa.cod < minE.cod then
+        begin
+            minE:= exa;
+            minC:= cur;
+            LeerExamenes(examenes,exa);
+        end;
+    end
+    else
+    begin
+         if cur.cod < minE.cod then
+        begin
+            minC:= cur;
+            minE:= exa;
+            LeerCursada(cursadas,cur);
+        end;
+    end;
+   Close(cursadas);
+   Close(examenes);
 end;
+procedure ProcesarArchivos();
+var
+  minExa: examen;
+  mincur: cursada;
+  exa: examen;
+  cur: cursada;
+  regM: alumno;
 begin
-    AsignarArchivos(maestro,cursadas,examenes);
-    
+  Reset(cursadas);
+  Reset(examenes);
+  Reset(maestro);
+  minExa.cod:= 999;
+  mincur:=999;
+  LeerExamenes(exa);  
+  LeerCursada(cur);
+  LeerMaestro(regM);
+   
+  while regM.cod <> valorAlto do
+  begin
+      // preguntar en clase como hacer cuando tenes dos archivos detalles de diferentes datos
+      
+  end;
+
+  Close(cursadas);
+  Close(examenes);
+  Close(maestro);
+end;
+
+
+
+begin
+    AsignarArchivos();
+    ProcesarArchivos();
 end.
