@@ -67,6 +67,7 @@ begin
         (regM.cantHs*precHs[regM.categoria]));
         totHsDiv:=totHsDiv + regM.cantHs;
         totMontDiv:= totMontDiv +(regM.cantHs*precHs[regM.categoria]);
+        Read(mae,regM);
       end;
       WriteLn('Total horas division ', divAct, ':', totHsDiv);
       WriteLn('Total monto division ', divAct, ':', totMontDiv);
