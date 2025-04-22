@@ -90,28 +90,21 @@ begin
   Reset(arch);
   Read(arch, regCa);
   posIni:= FilePos(arch);
-  repeat
-    LeerNovela(n);
-    if(n.nombre<> 'zzz') then
-    begin
-      if(regCa.cod < 0) then
-      begin
-        Seek(arch, (regCa.cod*-1));
-        Read(arch, auxN);
-        regCa.cod:= auxN.cod*-1;
-        Seek(arch, FilePos(arch)-1);
-        Write(arch,n);
-        Seek(arch, posIni);
-        Write(arch, regCa);
-      end
-      else
-      begin
-        Seek(arch, FileSize(arch));
-        Write(arch,n);
-      end;
-    end;
-    
-  until (n.nombre ='zzz');
+  LeerNovela(n);
+  if(n.nombre<> 'zzz') and(regCa.cod < 0) then
+  begin
+    Seek(arch, (regCa.cod*-1));
+    Read(arch, auxN);
+    Seek(arch, FilePos(arch)-1);
+    Write(arch,n);
+    Seek(arch, 0);
+    Write(arch, auxN);
+  end
+  else
+  begin
+    Seek(arch, FileSize(arch));
+    Write(arch,n);
+  end;
   Close(arch);
 end;
 procedure ModificarNovela(var arch: archNovela);
@@ -122,6 +115,7 @@ begin
   LeerNovela(n);
   Reset(arch);
   condi := False;
+  Read(arch,n);
   while (not Eof(arch)and (not condi)) do 
   begin
         Read(arch,auxN);
@@ -148,7 +142,7 @@ begin
     condi:= false;
     Reset(arch);
     Read(arch,regCa);
-    posIni:= FilePos(arch);
+    posIni:= FilePos(arch); // eliminar
     //suponemos que existe el codigo a eliminar o hay que verificar primero si existe el codigo dentro del archivo?
    while (not Eof(arch)and (not condi)) do
    begin
@@ -161,8 +155,8 @@ begin
      n := regCa;
      Seek(arch, FilePos(arch)-1);
      Write(arch, n);
-     regCa.cod:= (auxN.cod*-1);
-     Seek(arch,posIni-1);
+     regCa.cod:= ((FilePos(arch)-1)*-1);
+     Seek(arch,0);
      Write(arch,regCa);
    end
    else
