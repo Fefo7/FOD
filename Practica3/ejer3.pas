@@ -85,13 +85,11 @@ end;
 procedure AltaNovela(var arch:archNovela);
 var
     n,regCa,auxN:novela;
-    posIni: Integer;
 begin
   Reset(arch);
   Read(arch, regCa);
-  posIni:= FilePos(arch);
   LeerNovela(n);
-  if(n.nombre<> 'zzz') and(regCa.cod < 0) then
+  if(regCa.cod < 0) then
   begin
     Seek(arch, (regCa.cod*-1));
     Read(arch, auxN);
@@ -102,7 +100,7 @@ begin
   end
   else
   begin
-    Seek(arch, FileSize(arch));
+    Seek(arch, FileSize(arch)-1);
     Write(arch,n);
   end;
   Close(arch);
@@ -133,7 +131,7 @@ begin
 end;
 procedure BajaNovela(var arch: archNovela);
 var
-    cod,posIni: Integer;
+    cod: Integer;
     n,auxN,regCa:novela;
     condi:Boolean;
 begin   
@@ -142,8 +140,6 @@ begin
     condi:= false;
     Reset(arch);
     Read(arch,regCa);
-    posIni:= FilePos(arch); // eliminar
-    //suponemos que existe el codigo a eliminar o hay que verificar primero si existe el codigo dentro del archivo?
    while (not Eof(arch)and (not condi)) do
    begin
         Read(arch,n);

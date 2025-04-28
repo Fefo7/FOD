@@ -222,7 +222,7 @@ begin
   Reset(arch);
   WriteLn('ingrese el numero de empleado a dar de baja');
   ReadLn(empAux.numEmp);
-  pos:= 01;
+  pos:= 0;
   condi:= False;
   while (not Eof(arch)and (not condi)) do
   begin
