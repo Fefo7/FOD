@@ -24,7 +24,9 @@ var
     detalles: archivosDetalles;
 
 procedure CrearArchivos(var mae: archMaestro;var  detalles: archivosDetalles); // se dispone
-
+begin
+  
+end;
 procedure Leer(var det: archDetalle; var d: detalle);
 begin
   if (not Eof(det)) then
