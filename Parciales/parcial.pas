@@ -36,11 +36,19 @@ begin
 end;
  procedure LeerRegistrosDetalles(var detalles:archivosDetalles ;var regdet:vecRegDet);
  var
-  i:Integer;
+  i,j:Integer;
  begin
+    for i:= 1 to cantArch do
+    begin
+      Reset(detalles[i]);
+    end; 
     for i:=1 to cantArch do
     begin
       Leer(detalles[i], regdet[i]);
+    end;
+    for i:= 1 to cantArch do
+    begin
+      Close(detalles[i]);
     end;
  end;
 procedure  InicializarArchivos(var mae: archMaestro; var detalles: archivosDetalles);
