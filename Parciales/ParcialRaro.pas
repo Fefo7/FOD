@@ -69,7 +69,7 @@ begin
    Rewrite(bajas);
    Read(arch, regCabe);
    leer(arch,p);
-    while p.dni<> dni do
+    while (p.dni <> valorAlto) and (p.dni<> dni)  do
         leer(arch,p);
     if(p.dni = dni)then
     begin
