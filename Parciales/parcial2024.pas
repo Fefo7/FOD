@@ -1,4 +1,4 @@
-program parcial;
+program parcial2024;
 const 
     valorAlto = 999;
     cantArch = 30;
